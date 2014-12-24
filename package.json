@@ -16,5 +16,16 @@
   "bugs": {
     "url": "https://github.com/jesuisunelegend/chatapp/issues"
   },
-  "homepage": "https://github.com/jesuisunelegend/chatapp"
+  "homepage": "https://github.com/jesuisunelegend/chatapp",
+  "dependencies": {
+    "body-parser": "^1.10.0",
+    "express": "^4.10.6",
+    "morgan": "^1.5.0",
+    "serve-static": "^1.7.1",
+    "socket.io": "^1.2.1"
+  },
+  "devDependencies": {
+    "bower": "^1.3.12",
+    "mocha": "^2.1.0"
+  }
 }
