@@ -7,4 +7,8 @@ chatApp.controller('mainCtrl', function ($scope) {
 		'Lorem ipsum dolor sit amet.',
 		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, veritatis!'
 	];
+
+	$scope.submit = function () {
+		console.log('submit');
+	}
 });
