@@ -12,10 +12,25 @@
 	
 	<!-- App scripts -->
 	<script src="/js/app.js"></script>
+	<!-- Controllers -->
+	<script src="/js/controller/mainCtrl.js"></script>
 </head>
 <body>
-	<div class="container">
-		<h1>ChatApp</h1>	
+	<div class="container" ng-controller="mainCtrl">
+		<div class="row">
+			<div class="col-lg-4 col-lg-offset-4">
+				<h1 class="text-center">Chat-App</h1>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row" ng-repeat="message in messages">
+					<div class="col-lg-10 col-lg-offset-1 well well-sm">
+						<p>{{ message }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
