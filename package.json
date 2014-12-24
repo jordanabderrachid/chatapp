@@ -1,0 +1,20 @@
+{
+  "name": "ChatApp",
+  "version": "0.0.1",
+  "description": "Real-Time Chat App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jesuisunelegend/chatapp.git"
+  },
+  "author": "Jordan Abderrachid",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jesuisunelegend/chatapp/issues"
+  },
+  "homepage": "https://github.com/jesuisunelegend/chatapp"
+}

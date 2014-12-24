@@ -1,0 +1,22 @@
+{
+  "name": "ChatApp",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jesuisunelegend/chatapp",
+  "authors": [
+    "Jordan Abderrachid <jabderrachid@gmail.com>"
+  ],
+  "description": "Real-Time Chat App",
+  "main": "server.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
