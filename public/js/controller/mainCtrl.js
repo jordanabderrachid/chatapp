@@ -1,14 +1,40 @@
 chatApp.controller('mainCtrl', function ($scope) {
 	$scope.messages = [
-		'Lorem ipsum dolor.',
-		'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
-		'Lorem ipsum.',
-		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae!',
-		'Lorem ipsum dolor sit amet.',
-		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, veritatis!'
+		{
+			pseudo: 'Pseudo',
+			text: 'Lorem.',
+			timestamp: Date.now()
+		},
+		{
+			pseudo: 'Pseudo',
+			text: 'Lorem ipsum.',
+			timestamp: Date.now()
+		},
+		{
+			pseudo: 'Pseudo',
+			text: 'Lorem ipsum dolor.',
+			timestamp: Date.now()
+		},
+		{
+			pseudo: 'Pseudo',
+			text: 'Lorem ipsum dolor sit.',
+			timestamp: Date.now()
+		},
+		{
+			pseudo: 'Pseudo',
+			text: 'Lorem ipsum dolor sit amet.',
+			timestamp: Date.now()
+		},
 	];
 
 	$scope.submit = function () {
-		console.log('submit');
+		var message = {
+			pseudo: 'Pseudo',
+			text: $scope.text,
+			timestamp: Date.now()
+		};
+
+		$scope.messages.push(message);
+		$scope.text = '';
 	}
 });

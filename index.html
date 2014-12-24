@@ -32,7 +32,7 @@
 			<div class="panel-body">
 				<div class="row" ng-repeat="message in messages">
 					<div class="col-lg-10 col-lg-offset-1 well well-sm">
-						<p>{{ message }}</p>
+						<p><strong>{{ message.pseudo }}</strong> - {{ message.text }} - <span am-time-ago="message.timestamp"></span></p>
 					</div>
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 					<div class="form-group">
 						<label for="inputMessage" class="col-lg-2 control-label">Message</label>
 						<div class="col-lg-9">
-							<input type="text" id="inputMessage" class="form-control" placeholder="Message" ng-enter="submit()">
+							<input type="text" id="inputMessage" class="form-control" placeholder="Message" ng-enter="submit()" ng-model="text">
 						</div>
 					</div>
 				</div>
