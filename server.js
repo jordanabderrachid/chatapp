@@ -1,6 +1,7 @@
 var express     = require('express');
 var serveStatic = require('serve-static');
 var morgan 		= require('morgan');
+var io			= require('socket.io')();
 
 var app = express();
 
@@ -17,3 +18,9 @@ var server = app.listen(8080, '127.0.0.1', function () { // TODO export host and
 	var port = server.address().port;
 	console.log('Server running at %s:%s', host, port);
 });
+
+io.on('connection', function (socket) {
+	console.log('Connection !');
+});
+
+io.listen(server);
