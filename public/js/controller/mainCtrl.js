@@ -1,31 +1,5 @@
 chatApp.controller('mainCtrl', function ($scope, socket) {
-	$scope.messages = [
-		{
-			pseudo: 'Pseudo',
-			text: 'Lorem.',
-			timestamp: Date.now()
-		},
-		{
-			pseudo: 'Pseudo',
-			text: 'Lorem ipsum.',
-			timestamp: Date.now()
-		},
-		{
-			pseudo: 'Pseudo',
-			text: 'Lorem ipsum dolor.',
-			timestamp: Date.now()
-		},
-		{
-			pseudo: 'Pseudo',
-			text: 'Lorem ipsum dolor sit.',
-			timestamp: Date.now()
-		},
-		{
-			pseudo: 'Pseudo',
-			text: 'Lorem ipsum dolor sit amet.',
-			timestamp: Date.now()
-		},
-	];
+	$scope.messages = [];
 
 	$scope.submit = function () {
 		var message = {
@@ -38,6 +12,13 @@ chatApp.controller('mainCtrl', function ($scope, socket) {
 		$scope.text = '';
 	}
 
+	$scope.isMessageBlockToDisplay = function () {
+		if ($scope.messages.length > 0) {
+			return true;
+		}
+
+		return false;
+	};
 	socket.on('broadcastMessageToClients', function (message) {
 		$scope.messages.push(message);
 	});
