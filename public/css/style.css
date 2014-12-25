@@ -3,3 +3,8 @@ body {
 	padding-top: 4Opx;
 	padding-bottom: 40px;
 }
+
+.scrollable {
+	max-height: 590px;
+	overflow: scroll;
+}

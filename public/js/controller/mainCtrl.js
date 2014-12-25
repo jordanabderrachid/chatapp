@@ -28,5 +28,7 @@ chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
 
 	socket.on('broadcastMessageToClients', function (message) {
 		$scope.messages.push(message);
+		var messagesPanel = angular.element('#messages');
+		messagesPanel.animate({ scrollTop: messagesPanel.prop('scrollHeight') }, 1000);
 	});
 });
