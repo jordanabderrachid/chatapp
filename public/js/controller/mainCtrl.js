@@ -2,14 +2,16 @@ chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
 	$scope.messages = [];
 
 	$scope.submit = function () {
-		var message = {
-			pseudo: $rootScope.pseudo,
-			text: $scope.text,
-			timestamp: ''
-		};
+		if ($scope.text.length > 0) {
+			var message = {
+				pseudo: $rootScope.pseudo,
+				text: $scope.text,
+				timestamp: ''
+			};
 
-		socket.emit('sendMessageToServer', message);
-		$scope.text = '';
+			socket.emit('sendMessageToServer', message);
+			$scope.text = '';
+		}
 	}
 
 	$scope.setPseudo = function () {
