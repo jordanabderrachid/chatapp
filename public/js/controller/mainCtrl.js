@@ -1,4 +1,4 @@
-chatApp.controller('mainCtrl', function ($scope) {
+chatApp.controller('mainCtrl', function ($scope, socket) {
 	$scope.messages = [
 		{
 			pseudo: 'Pseudo',
@@ -31,10 +31,14 @@ chatApp.controller('mainCtrl', function ($scope) {
 		var message = {
 			pseudo: 'Pseudo',
 			text: $scope.text,
-			timestamp: Date.now()
+			timestamp: ''
 		};
 
-		$scope.messages.push(message);
+		socket.emit('sendMessageToServer', message);
 		$scope.text = '';
 	}
+
+	socket.on('broadcastMessageToClients', function (message) {
+		$scope.messages.push(message);
+	});
 });

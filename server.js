@@ -20,6 +20,11 @@ var server = app.listen(8080, '127.0.0.1', function () { // TODO export host and
 });
 
 io.on('connection', function (socket) {
+	socket.on('sendMessageToServer', function (message) {
+		message.timestamp = Date.now();
+		io.emit('broadcastMessageToClients', message);
+	});
+
 	console.log('Connection !');
 });
 
