@@ -5,6 +5,6 @@ body {
 }
 
 .scrollable {
-	max-height: 590px;
+	max-height: 500px;
 	overflow: scroll;
 }
