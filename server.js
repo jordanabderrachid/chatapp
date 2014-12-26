@@ -28,6 +28,7 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('claimPseudo', function (pseudo) {
+		// TODO Check if this pseudo is not already taken.
 		users.push(pseudo);
 		socket.pseudo = pseudo;
 		io.emit('updateUsers', users);
