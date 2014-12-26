@@ -1,6 +1,9 @@
 chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
 	$scope.messages = [];
 
+	$rootScope.globalConversation = true;
+	$rootScope.activeRoom = false;
+
 	$scope.submit = function () {
 		if ($scope.text.length > 0) {
 			var message = {
@@ -8,6 +11,10 @@ chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
 				text: $scope.text,
 				timestamp: ''
 			};
+
+			if ($rootScope.activeRoom) {
+				message.roomId = $rootScope.activeRoom;
+			}
 
 			socket.emit('sendMessageToServer', message);
 			$scope.text = '';

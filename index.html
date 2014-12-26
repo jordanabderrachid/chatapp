@@ -21,6 +21,7 @@
 	<!-- Controllers -->
 	<script src="/js/controller/mainCtrl.js"></script>
 	<script src="/js/controller/userCtrl.js"></script>
+	<script src="/js/controller/roomCtrl.js"></script>
 	<!-- Directives -->
 	<script src="/js/directive/ngEnter.js"></script>
 </head>
@@ -31,7 +32,26 @@
 				<h1 class="text-center">Chat-App</h1>
 			</div>
 		</div>
-		<div class="row">
+		<div ng-controller="roomCtrl">
+			<ul class="nav nav-tabs">
+				<li role="presentation" ng-class="{active: isGlobalConversationSelected()}"><a href="#" ng-click="selectGlobalConversation()">Global</a></li>
+				<li ng-repeat="room in rooms" role="presentation" ng-class="{active: isRoomSelected(room)}"><a href="#" ng-click="selectRoom(room)">{{ buildTitle(room) }}</a></li>
+			</ul>
+			<div class="row spacer" ng-hide="globalConversation" ng-show="isPrivateMessageBlockToDisplay()">
+				<div class="col-lg-12">
+					<div class="panel panel-default scrollable">
+						<div class="panel-body">
+							<div class="row" ng-repeat="message in room.messages">
+								<div class="col-lg-10 col-lg-offset-1 well well-sm">
+									<p><strong>{{ message.pseudo }}</strong> - {{ message.text }} - <span am-time-ago="message.timestamp" class="small"></span></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row spacer" ng-show="globalConversation">
 			<div class="col-lg-8">
 				<div class="panel panel-default scrollable" id="messages" ng-show="isMessageBlockToDisplay()">
 					<div class="panel-body">
@@ -57,9 +77,17 @@
 				</div>
 				<div class="panel panel-default scrollable" ng-show="isUserBlockToDisplay()" id="userList">
 					<div class="panel-body">
+						<div ng-if="noOneElseConnected()">
+							<div class="row">
+								<div class="col-lg-12">
+									Il n'y a que vous de connecté !		
+								</div>
+							</div>
+						</div>
 						<table class="table table-condensed">
 							<tr ng-repeat="user in users | filter:userFilter">
 								<td>{{ user }}</td>
+								<td><button class="btn btn-default" ng-click="inviteUser(user)">Inviter</button></td>
 							</tr>
 						</table>
 					</div>

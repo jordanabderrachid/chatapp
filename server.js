@@ -7,7 +7,7 @@ var uuid 		= require('uuid');
 
 var app = express();
 
-app.use(morgan('dev')); // Logger.
+// app.use(morgan('dev')); // Logger.
 
 app.use(serveStatic('public', {})); // Used to serve static content.
 
@@ -44,15 +44,20 @@ io.on('connection', function (socket) {
 	socket.on('sendMessageToServer', function (message) {
 		message.timestamp = Date.now();
 
-		clientRedis.rpush('lastMessages', JSON.stringify(message));
+		if (message.roomId) {
+			io.to(message.roomId).emit('privateMessage', message);
+		} else {
 
-		clientRedis.llen('lastMessages', function (err, len) {
-			if (len > 5) {
-				clientRedis.lpop('lastMessages');
-			};
-		});
+			clientRedis.rpush('lastMessages', JSON.stringify(message));
 
-		io.emit('broadcastMessageToClients', message);
+			clientRedis.llen('lastMessages', function (err, len) {
+				if (len > 5) {
+					clientRedis.lpop('lastMessages');
+				};
+			});
+
+			io.emit('broadcastMessageToClients', message);
+		}
 	});
 
 	socket.on('claimPseudo', function (pseudo) {
@@ -64,7 +69,7 @@ io.on('connection', function (socket) {
 			pseudo: socket.pseudo,
 			privateRoomId: uuid.v4()
 		};
-
+		console.log('%s is on room %s', user.pseudo, user.privateRoomId);
 		socket.join(user.privateRoomId);
 
 		clientRedis.hmset('users', socket.pseudo, JSON.stringify(user));
@@ -79,6 +84,35 @@ io.on('connection', function (socket) {
 			io.emit('updateUsers', users);
 		});
 
+	});
+
+	socket.on('inviteUser', function (pseudo) {
+		clientRedis.hget(['users', pseudo], function (err, userObjString) {
+			var invitedUser = JSON.parse(userObjString);
+
+			var room = {
+				roomId: uuid.v4(),
+				users: [],
+				messages: []
+			};
+
+			room.users.push(socket.pseudo);
+			room.users.push(invitedUser.pseudo);
+
+			socket.emit('sendRoom', room);
+			io.to(invitedUser.privateRoomId).emit('sendRoom', room);
+
+			clientRedis.hmset('rooms', room.roomId, JSON.stringify(room));
+		});
+	});
+
+	socket.on('subscribe', function (roomId) {
+		socket.join(roomId);
+		console.log('%s subscribe to %s', socket.pseudo, roomId);
+	});
+
+	socket.on('leaveRoom', function (roomId) {
+		socket.leave(roomId);
 	});
 
 	socket.on('disconnect', function () {
@@ -96,8 +130,6 @@ io.on('connection', function (socket) {
 			});
 		}
 	});
-
-	console.log('Connection !');
 });
 
 io.listen(server);

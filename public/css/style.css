@@ -12,3 +12,7 @@ body {
 #userList {
 	max-height: 400px;
 }
+
+.spacer {
+	padding-top: 10px;
+}
