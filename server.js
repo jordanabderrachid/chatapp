@@ -31,8 +31,26 @@ clientRedis.on('ready', function () {
 });
 
 io.on('connection', function (socket) {
+
+	clientRedis.llen('lastMessages', function (err, len) {
+		for (var i = 0; i < len; i++) {
+			clientRedis.lindex('lastMessages', i, function (err, message) {
+				socket.emit('broadcastMessageToClients', JSON.parse(message));
+			});
+		}
+	});
+	
 	socket.on('sendMessageToServer', function (message) {
 		message.timestamp = Date.now();
+
+		clientRedis.rpush('lastMessages', JSON.stringify(message));
+
+		clientRedis.llen('lastMessages', function (err, len) {
+			if (len > 5) {
+				clientRedis.lpop('lastMessages');
+			};
+		});
+
 		io.emit('broadcastMessageToClients', message);
 	});
 
