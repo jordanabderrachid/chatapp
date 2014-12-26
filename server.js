@@ -3,6 +3,7 @@ var serveStatic = require('serve-static');
 var morgan 		= require('morgan');
 var io			= require('socket.io')();
 var redis		= require('redis');
+var uuid 		= require('uuid');
 
 var app = express();
 
@@ -59,13 +60,20 @@ io.on('connection', function (socket) {
 		
 		socket.pseudo = pseudo;
 
-		clientRedis.hmset('users', pseudo, pseudo);
+		var user = {
+			pseudo: socket.pseudo,
+			privateRoomId: uuid.v4()
+		};
+
+		socket.join(user.privateRoomId);
+
+		clientRedis.hmset('users', socket.pseudo, JSON.stringify(user));
 
 		clientRedis.hgetall('users', function (err, usersObj) {
 			var users = [];
 
-			for (var i in usersObj) {
-				users.push(usersObj[i]);
+			for (var pseudo in usersObj) {
+				users.push(pseudo);
 			}
 
 			io.emit('updateUsers', users);
@@ -80,8 +88,8 @@ io.on('connection', function (socket) {
 			clientRedis.hgetall('users', function (err, usersObj) {
 				var users = [];
 
-				for (var i in usersObj) {
-					users.push(usersObj[i]);
+				for (var pseudo in usersObj) {
+					users.push(pseudo);
 				}
 
 				io.emit('updateUsers', users);
