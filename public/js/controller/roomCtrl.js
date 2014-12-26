@@ -40,7 +40,7 @@ chatApp.controller('roomCtrl', function ($scope, $rootScope, socket) {
 	};
 
 	$scope.isPrivateMessageBlockToDisplay = function () {
-		if ($scope.room.messages.length > 0) {
+		if ($scope.room && $scope.room.messages.length > 0) {
 			return true;
 		}
 

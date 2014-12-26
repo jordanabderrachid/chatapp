@@ -1,4 +1,4 @@
-chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
+chatApp.controller('mainCtrl', function ($scope, $rootScope, socket, webRTCService) {
 	$scope.messages = [];
 
 	$rootScope.globalConversation = true;
@@ -39,4 +39,8 @@ chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
 		var messagesPanel = angular.element('#messages');
 		messagesPanel.animate({ scrollTop: messagesPanel.prop('scrollHeight') }, 1000);
 	});
+
+	webRTCService.createDataChannel('id');
+	console.log(webRTCService.getDataChannel('id'));
+	
 });
