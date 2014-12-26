@@ -29,11 +29,15 @@ io.on('connection', function (socket) {
 
 	socket.on('claimPseudo', function (pseudo) {
 		users.push(pseudo);
+		console.log('New pseudo : %s', pseudo);
+		console.log('Users : %s', users.toString());
 		io.emit('updateUsers', users);
 	});
 
 	socket.on('freePseudo', function (pseudo) {
 		users.splice(users.indexOf(pseudo), 1);
+		console.log('Pseudo to remove : %s', pseudo);
+		console.log('Users : %s', users.toString());
 		io.emit('updateUsers', users);
 	});
 
