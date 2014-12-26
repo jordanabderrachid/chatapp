@@ -11,5 +11,9 @@ chatApp.controller('userCtrl', function ($scope, $rootScope, socket) {
 
 	socket.on('updateUsers', function (users) {
 		$scope.users = users;
+
+		if ($rootScope.pseudo) {
+			$scope.users.splice($scope.users.indexOf($rootScope.pseudo), 1);
+		}
 	});
 });
