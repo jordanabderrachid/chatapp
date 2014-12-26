@@ -2,6 +2,7 @@ var express     = require('express');
 var serveStatic = require('serve-static');
 var morgan 		= require('morgan');
 var io			= require('socket.io')();
+var redis		= require('redis');
 
 var app = express();
 
@@ -20,6 +21,16 @@ var server = app.listen(8080, '127.0.0.1', function () { // TODO export host and
 });
 
 var users = [];
+
+var clientRedis = redis.createClient();
+
+clientRedis.on('error', function (err) {
+	console.log('Redis DB encoutered an error : ' + err);
+});
+
+clientRedis.on('ready', function () {
+	console.log('Redis DB ready.');
+});
 
 io.on('connection', function (socket) {
 	socket.on('sendMessageToServer', function (message) {
