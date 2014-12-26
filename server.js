@@ -20,8 +20,6 @@ var server = app.listen(8080, '127.0.0.1', function () { // TODO export host and
 	console.log('Server running at %s:%s', host, port);
 });
 
-var users = [];
-
 var clientRedis = redis.createClient();
 
 clientRedis.on('error', function (err) {
@@ -40,15 +38,36 @@ io.on('connection', function (socket) {
 
 	socket.on('claimPseudo', function (pseudo) {
 		// TODO Check if this pseudo is not already taken.
-		users.push(pseudo);
+		
 		socket.pseudo = pseudo;
-		io.emit('updateUsers', users);
+
+		clientRedis.hmset('users', pseudo, pseudo);
+
+		clientRedis.hgetall('users', function (err, usersObj) {
+			var users = [];
+
+			for (var i in usersObj) {
+				users.push(usersObj[i]);
+			}
+
+			io.emit('updateUsers', users);
+		});
+
 	});
 
 	socket.on('disconnect', function () {
 		if (socket.pseudo) {
-			users.splice(users.indexOf(socket.pseudo), 1);
-			io.emit('updateUsers', users);
+			clientRedis.hdel('users', socket.pseudo);
+
+			clientRedis.hgetall('users', function (err, usersObj) {
+				var users = [];
+
+				for (var i in usersObj) {
+					users.push(usersObj[i]);
+				}
+
+				io.emit('updateUsers', users);
+			});
 		}
 	});
 
