@@ -62,5 +62,9 @@ chatApp.controller('roomCtrl', function ($scope, $rootScope, socket) {
 				$scope.rooms[i].messages.push(message);
 			}
 		}
+
+		var DOMId = 'room-' + message.roomId;
+		var privateMessagesPanel = angular.element('#' + DOMId);
+		privateMessagesPanel.animate({ scrollTop: privateMessagesPanel.prop('scrollHeight') }, 1000);
 	});
 });

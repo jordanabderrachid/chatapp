@@ -39,7 +39,7 @@
 			</ul>
 			<div class="row spacer" ng-hide="globalConversation" ng-show="isPrivateMessageBlockToDisplay()">
 				<div class="col-lg-12">
-					<div class="panel panel-default scrollable">
+					<div class="panel panel-default scrollable" ng-attr-id="{{ 'room-' + room.roomId }}">
 						<div class="panel-body">
 							<div class="row" ng-repeat="message in room.messages">
 								<div class="col-lg-10 col-lg-offset-1 well well-sm">
