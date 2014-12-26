@@ -16,6 +16,7 @@ chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
 
 	$scope.setPseudo = function () {
 		$rootScope.pseudo = $scope.pseudoToSet;
+		socket.emit('claimPseudo', $rootScope.pseudo);
 	};
 
 	$scope.isMessageBlockToDisplay = function () {

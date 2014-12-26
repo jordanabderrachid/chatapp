@@ -8,3 +8,7 @@ body {
 	max-height: 500px;
 	overflow: scroll;
 }
+
+#userList {
+	max-height: 400px;
+}
