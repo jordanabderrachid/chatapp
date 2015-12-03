@@ -1,4 +1,4 @@
-chatApp.controller('mainCtrl', function ($scope, $rootScope, socket, webRTCService) {
+chatApp.controller('mainCtrl', function ($scope, $rootScope, socket) {
 	$scope.messages = [];
 
 	$rootScope.globalConversation = true; // A la connection, le chat global est activé.
@@ -42,10 +42,4 @@ chatApp.controller('mainCtrl', function ($scope, $rootScope, socket, webRTCServi
 		var messagesPanel = angular.element('#messages');
 		messagesPanel.animate({ scrollTop: messagesPanel.prop('scrollHeight') }, 1000); // On autoscroll le panel.
 	});
-
-
-	// Essais webRTC. (envoi d'images)
-	webRTCService.createDataChannel('id');
-	console.log(webRTCService.getDataChannel('id'));
-
 });
