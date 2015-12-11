@@ -1,13 +1,26 @@
 server {
-	listen 80;
-	server_name ###IP OR DOMAIN NAME###;
+    listen 443 ssl;
+    server_name ### HOSTNAME ###;
+    
+    ssl_certificate ### PATH_TO_CERTIFICATE ###;
+    ssl_certificate_key ### PATH_TO_KEY ###;
 
-	location / {
-		proxy_pass http://localhost:8080;
-		proxy_http_version 1.1;
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection 'upgrade';
-		proxy_set_header Host $host;
-		proxy_cache_bypass $http_upgrade;
-	}
+    ssl on;
+    ssl_session_cache   builtin:1000    shared:SSL:10m;
+    ssl_protocols   TLSv1   TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
+    ssl_prefer_server_ciphers on;
+
+    access_log  ### PATH_TO_LOG_FILE ###;
+
+    location / {
+        proxy_pass http://localhost:### PORT ###;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
+    proxy_redirect http://localhost:### PORT ### https://### HOSTNAME ###;
+    }
 }
